@@ -1,4 +1,4 @@
-function ProductoDetalle() {
+function ProductoDetalle(id) {
     
 }
 
