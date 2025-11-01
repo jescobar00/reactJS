@@ -1,8 +1,16 @@
-//import React from 'react';
-//import { Navigate, Outlet } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-function Boton({ text, color }) {
-  return <button style={{ backgroundColor: color }}>{text}</button>;
+function Boton({ text, color, link }) {
+  const navigate = useNavigate();
+  const handleClick = () => {
+    if (link) navigate(link);
+  };
+
+  return (
+    <button style={{ backgroundColor: color }} onClick={handleClick}>
+      {text}
+    </button>
+  );
 }
 
 export default Boton;

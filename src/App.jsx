@@ -1,15 +1,31 @@
-import { useState } from 'react'
-import Boton from './components/Boton'
-import './App.css'
+import { useState } from "react";
+import Boton from "./components/Boton";
+import RutaPrivada from "./components/RutaPrivada";
+import ProductList from "./pages/ProductList";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
 
   return (
     <>
-      <Boton text="Hola Mundo" color="blue" />
+      <Router>
+        <Boton text="Hola Mundo" color="blue" />
+        <Boton text="Ver Productos" color="green" link="/products" />
+        <Routes>
+          <Route
+            path="/products"
+            element={
+              <RutaPrivada isAuthenticated={isAuthenticated}>
+                <ProductList />
+              </RutaPrivada>
+            }
+          />
+        </Routes>
+      </Router>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
