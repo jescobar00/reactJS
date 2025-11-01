@@ -1,9 +1,27 @@
+import React, { useEffect, useState } from "react";
+
 export default function ProductList() {
   const [listOfProducts, setListOfProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(getProductsFromAPI, []);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await fetch("https://fakestoreapi.com/products");
+        if (!res.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await res.json();
+        setListOfProducts(data);
+        setIsLoading(false);
+      } catch (error) {
+        setError(error.message);
+        setIsLoading(false);
+      }
+    };
+    fetchProducts();
+  }, []);
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>There's an error: {error}</p>;
@@ -20,19 +38,4 @@ export default function ProductList() {
       </ul>
     </div>
   );
-}
-function getProductsFromAPI() {
-  const response = [];
-  fetch("https://fakestoreapi.com/products")
-    .then(res => res.json())
-    .then(data => {
-      response.push(...data);
-      setIsLoading(false);
-    })
-    .catch(err => {
-      setError(err);
-      setIsLoading(false);
-    })
-    .finally(() => setIsLoading(false));
-  return response;
 }
