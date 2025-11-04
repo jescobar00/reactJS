@@ -1,26 +1,26 @@
 import React, { useEffect, useState } from "react";
+import consts from "../consts";
 
 export default function ProductList() {
-  const [listOfProducts, setListOfProducts] = useState([]);
+  const [listOfResults, setListOfResults] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchResults = async () => {
       try {
-        const res = await fetch("https://fakestoreapi.com/products");
+        const res = await fetch(consts().API_BREEDS_URL);
         if (!res.ok) {
           throw new Error("Network response was not ok");
         }
         const data = await res.json();
-        setListOfProducts(data);
+        setListOfResults(data);
         setIsLoading(false);
       } catch (error) {
         setError(error.message);
         setIsLoading(false);
       }
     };
-    fetchProducts();
+    fetchResults();
   }, []);
 
   if (isLoading) return <p>Loading...</p>;
@@ -28,13 +28,23 @@ export default function ProductList() {
 
   return (
     <div>
-      <h1>Product List</h1>
+      <h1>Cat Breeds List</h1>
       <ul>
-        {listOfProducts.map(product => (
-          <li key={product.id}>
-            {product.title} - ${product.price}
+        {listOfResults.map(item => (
+          <li key={item.id}>
+            🐱 {item.name} 🌎: {item.origin}
+            <img
+              src={consts().API_IMAGES_URL.replace(
+                consts().API_IMAGES_PLACEHOLDER,
+                item.reference_image_id
+              )}
+              alt={item.name}
+              width="80"
+            />
+            <br />
           </li>
         ))}
+        <br />
       </ul>
     </div>
   );
