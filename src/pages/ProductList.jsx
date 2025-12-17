@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Boton from "../components/Boton";
 import consts from "../consts";
 
 export default function ProductList() {
@@ -40,6 +42,11 @@ export default function ProductList() {
               )}
               alt={item.name}
               width="80"
+            />
+            <Boton
+              text="Ver Detalle"
+              color="blue"
+              link={"/products/" + item.id}
             />
             <br />
           </li>
